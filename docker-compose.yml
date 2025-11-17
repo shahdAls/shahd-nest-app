@@ -1,0 +1,9 @@
+version: '3.9'
+
+services:
+  app:
+    image: shahdals/nest-ionic-app:latest
+    container_name: nest_ionic_app # create one
+    ports:
+      - "3000:3000"     # المنفذ الخارجي 3000 ← يربط مع المنفذ الداخلي 3000
+    restart: always # runing at the background 

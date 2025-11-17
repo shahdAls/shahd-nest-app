@@ -1,98 +1,185 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="120" alt="Nest Logo" /></a>
-</p>
+# NestJS + Ionic React App
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+This project packages an **Ionic React app** served by **NestJS** into a Docker image and provides instructions to run it using Docker Compose.
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg" alt="Donate us"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow" alt="Follow us on Twitter"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+---
 
-## Description
+## Steps to Run Locally
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+### 1. Create the Ionic React App
 
-## Project setup
+Install the Ionic CLI globally:
 
 ```bash
-$ npm install
+npm install -g @ionic/cli
 ```
 
-## Compile and run the project
+Create a blank React app:
 
 ```bash
-# development
-$ npm run start
-
-# watch mode
-$ npm run start:dev
-
-# production mode
-$ npm run start:prod
+ionic start shahd-ionic-app blank --type=react
 ```
 
-## Run tests
+Navigate to the app folder and serve it locally:
 
 ```bash
-# unit tests
-$ npm run test
-
-# e2e tests
-$ npm run test:e2e
-
-# test coverage
-$ npm run test:cov
+cd shahd-ionic-app
+ionic serve
 ```
 
-## Deployment
+>  The app should open in your browser.
 
-When you're ready to deploy your NestJS application to production, there are some key steps you can take to ensure it runs as efficiently as possible. Check out the [deployment documentation](https://docs.nestjs.com/deployment) for more information.
+---
 
-If you are looking for a cloud-based platform to deploy your NestJS application, check out [Mau](https://mau.nestjs.com), our official platform for deploying NestJS applications on AWS. Mau makes deployment straightforward and fast, requiring just a few simple steps:
+### 2. Build the Ionic React App
 
 ```bash
-$ npm install -g @nestjs/mau
-$ mau deploy
+ionic build
 ```
 
-With Mau, you can deploy your application in just a few clicks, allowing you to focus on building features rather than managing infrastructure.
+This generates a `dist` folder containing the production build.
 
-## Resources
+---
 
-Check out a few resources that may come in handy when working with NestJS:
+### 3. Create the NestJS App
 
-- Visit the [NestJS Documentation](https://docs.nestjs.com) to learn more about the framework.
-- For questions and support, please visit our [Discord channel](https://discord.gg/G7Qnnhy).
-- To dive deeper and get more hands-on experience, check out our official video [courses](https://courses.nestjs.com/).
-- Deploy your application to AWS with the help of [NestJS Mau](https://mau.nestjs.com) in just a few clicks.
-- Visualize your application graph and interact with the NestJS application in real-time using [NestJS Devtools](https://devtools.nestjs.com).
-- Need help with your project (part-time to full-time)? Check out our official [enterprise support](https://enterprise.nestjs.com).
-- To stay in the loop and get updates, follow us on [X](https://x.com/nestframework) and [LinkedIn](https://linkedin.com/company/nestjs).
-- Looking for a job, or have a job to offer? Check out our official [Jobs board](https://jobs.nestjs.com).
+Install NestJS CLI globally:
 
-## Support
+```bash
+npm i -g @nestjs/cli
+```
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+Create a new NestJS app:
 
-## Stay in touch
+```bash
+nest new shahd-nest-app
+```
 
-- Author - [Kamil Myśliwiec](https://twitter.com/kammysliwiec)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+---
 
-## License
+### 4. Copy Ionic Build into NestJS
 
-Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
+* Copy the contents of `shahd-ionic-app/dist` into a folder called `client` inside `shahd-nest-app`.
+
+---
+
+### 5. Serve the React App from NestJS
+
+Install the static serve module:
+
+```bash
+npm install @nestjs/serve-static
+```
+
+Modify `src/app.module.ts`:
+
+The problem here is that NestJS doesn't automatically see the client folder and
+the code inside your React app. You need to use a static server to host it.
+
+ServeStaticModule → serves as a local host for static files:
+```typescript
+import { ServeStaticModule } from '@nestjs/serve-static';
+import { join } from 'path';
+
+@Module({
+  imports: [
+    ServeStaticModule.forRoot({
+      rootPath: join(__dirname, '..', 'client'), // points to the client folder
+    }),
+    // ...other modules
+  ],
+  // ...
+})
+export class AppModule {}
+```
+
+> This allows NestJS to serve the built React app.
+
+---
+
+### 6. Create Docker Image
+
+Create a `Dockerfile` at the root of the NestJS project:
+
+```dockerfile
+FROM node:20-alpine
+
+WORKDIR /app
+
+COPY package*.json ./
+RUN npm install --production
+
+COPY . .
+
+RUN npm run build
+
+EXPOSE 3000
+CMD ["node", "dist/main"]
+```
+
+Build and run the Docker image:
+
+```bash
+docker build -t shahd/nest-ionic-app .
+docker run -p 3000:3000 shahd/nest-ionic-app
+```
+
+---
+
+### 7. Push Docker Image to Docker Hub
+
+Login to Docker Hub:
+
+```bash
+docker login
+```
+
+Tag your local image to match your Docker Hub repository and push:
+```bash
+docker tag shahd/nest-ionic-app shahdals/nest-ionic-app:latest
+docker push shahdals/nest-ionic-app:latest
+```
+
+---
+
+### 8. Run with Docker Compose
+
+Create `docker-compose.yml`:
+
+```yaml
+version: '3.9'
+
+services:
+  app:
+    image: shahdals/nest-ionic-app:latest
+    container_name: nest_ionic_app
+    ports:
+      - "3000:3000" # Map host port 3000 to container port 3000
+
+    restart: always
+```
+
+Run the app:
+
+```bash
+docker compose up -d
+```
+
+> The app will be available at [http://localhost:3000](http://localhost:3000)
+
+---
+
+### 9. Push Code to GitHub
+
+* Make sure to include a proper `.gitignore` (ignore `node_modules`, `dist`, logs, `.env`, etc.).
+* Commit all project files and push to your GitHub repository:
+
+```bash
+git init
+git add .
+git commit -m "Initial commit"
+git remote add origin https://github.com/shahdAls/shahd-nest-app.git
+git push -u origin main
+```
+
+---
